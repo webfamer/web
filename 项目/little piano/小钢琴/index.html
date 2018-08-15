@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <style type="text/css">
+        *{
+            margin:0;
+            padding: 0;
+        }
+        .main {
+            margin: 100px auto;
+            width: 960px;
+        }
+        div ul{
+            list-style: none;
+        }
+        li {
+            width: 100px;
+            height: 50px;
+            float: left;
+            border: 1px solid #000;
+            position: relative;
+        }
+        li div{
+            width: 100px;
+            height: 50px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .writein{
+            width:100px
+        }
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            $("li").append("<div></div>");
+            var arr = ["red","green","blue","yellow","pink","gold","black","orange","#CCC"]
+            $("li div").each(function (index,ele) {//通过each函数遍历div并给他们加上数组里的背景颜色
+                $(this).css("background",arr[index]);
+            }).parent().mouseenter(function () {//鼠标经过的时候触发，滑块下滑
+                $(this).children().stop().animate({top:50},200);
+                $("audio").get($(this).index()).load();
+                $("audio").get($(this).index()).play();
+            }).mouseleave(function () {//鼠标离开的时候触发，鼠标复原
+                $(this).children().stop().animate({top:0},200);
+            });
+           /* 功能 1 通过判断键盘相应的按键来绑定相应的滑块下滑和复原的时间
+            $(window).keydown(function (event) {
+                if(event.keyCode>=49&&event.keyCode<=56){
+                    var num = event.keyCode - 49;
+                    $("li").eq(num).trigger("mouseenter");
+
+                    setTimeout(function () {//加个定时器的目的是使得这个函数能够延迟执行
+                            $("li").eq(num).trigger("mouseleave");
+                        },200
+                    )
+                }
+            });*/
+           //功能2  读谱器  通过读取输入的数字滑动相应的滑块并发音
+            $("#btn").click(function () {
+                var input = $("#input").val().split("");
+                console.log(input);
+                var num = [],t = 0;
+                for(var i=0;i<input.length;i++) {
+                    t = input[i] - 1
+                    num.push(t)
+                }//将输入的数字依次减1
+                var i = 0;
+             var timer = setInterval(function () {//这个函数的意思是让数组里的数依次输出
+               // $("li div").eq(num[i]).stop().animate({top:50},200);
+                 $("li").eq(num[i]).trigger("mouseenter");
+               moveup(i);//向下移动了50像素的滑块复原
+                  i++;
+                  if(i>num.length){
+                      clearInterval(timer);
+                  }
+              },500);
+             function moveup(i) {//将这个函数单独写出来，等上面的函数需要这个函数时在调用，避免了定时器里再套一个定时器导致无法执行的结果
+                 setTimeout(function () {
+                     $("li").eq(num[i]).trigger("mouseleave");
+                 },300)
+
+
+
+
+             }
+
+            })
+
+        });
+
+
+
+
+    </script>
+</head>
+<body>
+<label for="input">输入乐谱</label>
+<input type="text" id="input">
+<button id="btn">开始</button>
+<div class="main">
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+<audio src="music/1.ogg" id="ss"></audio>
+<audio src="music/2.ogg" ></audio>
+<audio src="music/3.ogg" ></audio>
+<audio src="music/4.ogg" ></audio>
+<audio src="music/5.ogg" ></audio>
+<audio src="music/6.ogg" ></audio>
+<audio src="music/7.ogg" ></audio>
+<audio src="music/8.ogg" ></audio>
+</body>
+</html>

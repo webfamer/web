@@ -37,7 +37,7 @@ body{
     height:500px;
     background: #BCACA3;
     margin:0 auto;
-    margin-left: 510px;
+    /*margin-left: 510px;*/
     position:relative;
 }
 .square{

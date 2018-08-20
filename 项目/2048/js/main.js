@@ -2,6 +2,7 @@
 var border = new Array();
 var hasConflicted = new Array();
     $(function () {
+        newgame();
     $(".newgame").click(function () {
         newgame();
     });//建立新游戏
@@ -135,7 +136,7 @@ var score = 0;
                 return false;
             }
             for(var i=0;i<4;i++){
-                for(var j=0;j<3;j++){
+                for(var j=2;j>=0;j--){
                     if(border[i][j]!=0){//先保证有数字
                         for(var k=3;k>j;k--){
                             if(border[i][k] ==0&&noBlockHinderRight(i,k,j,border)){//可以移动
